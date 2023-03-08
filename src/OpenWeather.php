@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use SolgenPower\LaravelOpenweather\Contracts\OpenWeatherAPI;
 use SolgenPower\LaravelOpenweather\DataTransferObjects\Weather;
+use Enum\TemperatureUnitType;
 
 class OpenWeather implements OpenWeatherAPI
 {
@@ -18,7 +19,7 @@ class OpenWeather implements OpenWeatherAPI
 
     private array $iconMap;
 
-    private string $units;
+    private TemperatureUnitType $tempUnit;
 
     private int $cacheDuration;
 
@@ -29,49 +30,85 @@ class OpenWeather implements OpenWeatherAPI
         $this->currentEndpoint = $config['current-endpoint'];
         $this->iconEndpoint = $config['icon-endpoint'];
         $this->iconMap = $config['icon-map'];
-        $this->units = $config['units'];
+        $this->tempUnit = TemperatureUnitType::tryFrom($config['temp-unit']);
         $this->cacheDuration = $config['cache-duration'];
     }
 
     /**
-     * Fetch Weather information using Corrdinates
+     * Override specific request temperate unit type from default in config
+     *
+     * @param TemperatureUnitType $temperatureUnitType
+     * @return self
+     */
+    public function asTemperatureUnit(TemperatureUnitType $temperatureUnitType): self {
+        $this->tempUnit = $temperatureUnitType;
+
+        return $this;
+    }
+
+    /**
+     * Fetch Weather information using coordinates
+     *
+     * @param string $latitude
+     * @param string $longitude
+     * @return Weather
      */
     public function coordinates(string $latitude, string $longitude): Weather
     {
         return Cache::remember(
-            "ow-coordinates-{$latitude}-{$longitude}",
+            "openweather:coordinates:{$latitude}-{$longitude}",
             $this->cacheDuration,
-            fn () => $this->getWeather("{$this->currentEndpoint}weather?lat={$latitude}&lon={$longitude}")
+            fn () => $this->getWeather([
+                "lat" => $latitude,
+                "lon" => $longitude
+            ])
         );
     }
 
     /**
      * Fetch Weather information using Zip Code and Country Code
+     *
+     * @param string $zip
+     * @param string $country
+     * @return Weather
      */
     public function zip(string $zip, string $country): Weather
     {
         return Cache::remember(
-            "ow-zip-{$zip}-{$country}",
+            "openweather:zip:{$zip}-{$country}",
             $this->cacheDuration,
-            fn () => $this->getWeather("{$this->currentEndpoint}weather?zip={$zip},{$country}")
+            fn () => $this->getWeather([
+                "zip" => implode(",", [$zip, $country])
+            ])
         );
     }
 
     /**
      * Fetch Weather information using City name, State Code, and Country Code
+     *
+     * @param string $city
+     * @param string $stateCode
+     * @param string $countryCode
+     * @return Weather
      */
     public function city(string $city, string $stateCode = '', string $countryCode = ''): Weather
     {
         return Cache::remember(
-            "ow-city-{$city}-{$stateCode}-{$countryCode}",
+            "openweather:city:{$city}-{$stateCode}-{$countryCode}",
             $this->cacheDuration,
-            fn () => $this->getWeather("{$this->currentEndpoint}weather?q={$city},{$stateCode},{$countryCode}")
+            fn () => $this->getWeather([
+                "q" => implode(",", array_filter([$city, $stateCode, $countryCode]))
+            ])
         );
     }
 
-    private function getWeather($url): Weather
+    private function getWeather(array $params): Weather
     {
-        $response = Http::get("{$url}&appid={$this->apiKey}&units={$this->units}")->json();
+        $params["appid"] = $this->apiKey;
+        $params["units"] = $this->tempUnit->name;
+        $urlParams = http_build_query($params);
+
+        $response = Http::get("{$this->currentEndpoint}weather?{$urlParams}")->json();
 
         $weather = [
             'latitude' => $response['coord']['lat'],
