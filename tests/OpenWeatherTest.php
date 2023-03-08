@@ -123,7 +123,7 @@ class OpenWeatherTest extends TestCase
         $this->assertTrue($weather->description === 'light intensity drizzle');
         $this->assertTrue($weather->icon === "{$iconEndpoint}09d");
         $this->assertTrue($weather->temperature === 280.32);
-        $this->assertTrue($weather->feelsLike === 280.32);
+        $this->assertTrue($weather->feelsLike === null);
         $this->assertTrue($weather->pressure === 1012);
         $this->assertTrue($weather->humidity === 81);
         $this->assertTrue($weather->windSpeed === 4.1);

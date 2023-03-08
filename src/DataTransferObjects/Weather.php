@@ -11,7 +11,7 @@ class Weather
 
         public readonly float $longitude,
 
-        public readonly string $countryCode,
+        public readonly ?string $countryCode,
 
         public readonly string $condition,
 
@@ -21,19 +21,19 @@ class Weather
 
         public readonly float $temperature,
 
-        public readonly float $feelsLike,
+        public readonly ?float $feelsLike,
 
-        public readonly int $pressure,
+        public readonly ?int $pressure,
 
-        public readonly int $humidity,
+        public readonly ?int $humidity,
 
-        public readonly float $windSpeed,
+        public readonly ?float $windSpeed,
 
-        public readonly string $windDirection,
+        public readonly ?string $windDirection,
 
-        public readonly int $cloudiness,
+        public readonly ?int $cloudiness,
 
-        public readonly int $visibility,
+        public readonly ?int $visibility,
 
         /**
          * Seconds difference from UTC

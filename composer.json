@@ -48,7 +48,8 @@
     "scripts": {
         "review": [
             "./vendor/bin/pint",
-            "./vendor/bin/phpstan analyse"
+            "./vendor/bin/phpstan analyse",
+            "./vendor/bin/phpunit"
         ]
     }
 }
