@@ -3,6 +3,7 @@
 namespace SolgenPower\LaravelOpenweather;
 
 use Illuminate\Support\ServiceProvider;
+use SolgenPower\LaravelOpenweather\Contracts\OpenWeatherAPI;
 
 class OpenWeatherServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,11 @@ class OpenWeatherServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             'laravel-openweather',
+            fn () => new OpenWeather(config('open-weather'))
+        );
+
+        $this->app->singleton(
+            OpenWeatherAPI::class,
             fn () => new OpenWeather(config('open-weather'))
         );
     }

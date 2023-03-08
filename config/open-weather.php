@@ -49,7 +49,7 @@ return [
     ],
 
     /**
-     * Cache duration, 60*10 is 10 minutes
+     * Cache duration default in seconds, 60 * 10 is 10 minutes
      */
     'cache-duration' => 60 * 10,
 
@@ -58,6 +58,6 @@ return [
      * imperial => Fahrenheit
      * metric => Celsius
      */
-    'units' => env('OPENWEAHTER_UNITS', 'imperial'),
+    'temperature-unit' => env('OPENWEATHER_TEMPERATURE_UNIT', 'imperial'),
 
 ];
