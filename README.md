@@ -33,6 +33,9 @@ return [
      */
     'icon-endpoint' => env('LAREVEL_OPENWEATHER_ICON_URL', 'https://openweathermap.org/img/wn/'),
 
+    /**
+     * Map icon code to actual icon filenames
+     */
     'icon-map' => [
         /**
          * Day Icons
@@ -48,7 +51,7 @@ return [
         '50d' => '50d.png',
 
         /**
-         * Night Icns
+         * Night Icons
          */
         '01n' => '01n.png',
         '02n' => '02n.png',
