@@ -1,12 +1,12 @@
 <?php
 
-namespace Solgenpower\LaravelOpenweather\Test;
+namespace SolgenPower\LaravelOpenweather\Test;
 
 use Illuminate\Support\Facades\Http;
 use Orchestra\Testbench\TestCase;
-use Solgenpower\LaravelOpenweather\DataTransferObjects\Weather;
-use Solgenpower\LaravelOpenweather\Facades\OpenWeather;
-use Solgenpower\LaravelOpenweather\OpenWeatherServiceProvider;
+use SolgenPower\LaravelOpenweather\DataTransferObjects\Weather;
+use SolgenPower\LaravelOpenweather\Facades\OpenWeather;
+use SolgenPower\LaravelOpenweather\OpenWeatherServiceProvider;
 
 class OpenWeatherTest extends TestCase
 {
@@ -35,7 +35,6 @@ class OpenWeatherTest extends TestCase
     public function it_gets_weather_information_of_a_coordinate()
     {
         $apiEndpoint = config('open-weather.api-current-endpoint');
-        $iconEndpoint = config('open-weather.icon-endpoint');
 
         $fixture = json_decode(file_get_contents(__DIR__.'/fixtures/test-coordinates.json'), true);
 
@@ -51,7 +50,7 @@ class OpenWeatherTest extends TestCase
         $this->assertTrue($weather->countryCode === 'IT');
         $this->assertTrue($weather->condition === 'Rain');
         $this->assertTrue($weather->description === 'moderate rain');
-        $this->assertTrue($weather->icon === "{$iconEndpoint}10d");
+        $this->assertTrue($weather->icon === OpenWeather::getIconUrl('10d'));
         $this->assertTrue($weather->temperature === 298.48);
         $this->assertTrue($weather->feelsLike === 298.74);
         $this->assertTrue($weather->pressure === 1015);
@@ -70,7 +69,6 @@ class OpenWeatherTest extends TestCase
     public function it_gets_weather_information_of_a_zip()
     {
         $apiEndpoint = config('open-weather.api-current-endpoint');
-        $iconEndpoint = config('open-weather.icon-endpoint');
 
         $fixture = json_decode(file_get_contents(__DIR__.'/fixtures/test-zip.json'), true);
 
@@ -86,7 +84,7 @@ class OpenWeatherTest extends TestCase
         $this->assertTrue($weather->countryCode === 'US');
         $this->assertTrue($weather->condition === 'Clear');
         $this->assertTrue($weather->description === 'clear sky');
-        $this->assertTrue($weather->icon === "{$iconEndpoint}01d");
+        $this->assertTrue($weather->icon === OpenWeather::getIconUrl('01d'));
         $this->assertTrue($weather->temperature === 282.55);
         $this->assertTrue($weather->feelsLike === 281.86);
         $this->assertTrue($weather->pressure === 1023);
@@ -105,7 +103,6 @@ class OpenWeatherTest extends TestCase
     public function it_gets_weather_information_of_a_city()
     {
         $apiEndpoint = config('open-weather.api-current-endpoint');
-        $iconEndpoint = config('open-weather.icon-endpoint');
 
         $fixture = json_decode(file_get_contents(__DIR__.'/fixtures/test-city.json'), true);
 
@@ -121,7 +118,7 @@ class OpenWeatherTest extends TestCase
         $this->assertTrue($weather->countryCode === 'GB');
         $this->assertTrue($weather->condition === 'Drizzle');
         $this->assertTrue($weather->description === 'light intensity drizzle');
-        $this->assertTrue($weather->icon === "{$iconEndpoint}09d");
+        $this->assertTrue($weather->icon === OpenWeather::getIconUrl('09d'));
         $this->assertTrue($weather->temperature === 280.32);
         $this->assertTrue($weather->feelsLike === null);
         $this->assertTrue($weather->pressure === 1012);

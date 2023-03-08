@@ -1,6 +1,6 @@
 <?php
 
-namespace Solgenpower\LaravelOpenweather;
+namespace SolgenPower\LaravelOpenweather;
 
 use Illuminate\Support\ServiceProvider;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Solgenpower\LaravelOpenweather\Contracts;
+namespace SolgenPower\LaravelOpenweather\Contracts;
 
-use Solgenpower\LaravelOpenweather\DataTransferObjects\Weather;
+use SolgenPower\LaravelOpenweather\DataTransferObjects\Weather;
 
 interface OpenWeatherAPI
 {

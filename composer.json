@@ -15,7 +15,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Solgenpower\\LaravelOpenweather\\": "src/"
+            "SolgenPower\\LaravelOpenweather\\": "src/"
         },
         "files": [
             "src/Support/helpers.php"
@@ -23,7 +23,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Solgenpower\\LaravelOpenweather\\Test\\": "tests/"
+            "SolgenPower\\LaravelOpenweather\\Test\\": "tests/"
         }
     },
     "require": {
@@ -38,10 +38,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Solgenpower\\LaravelOpenweather\\OpenWeatherServiceProvider"
+                "SolgenPower\\LaravelOpenweather\\OpenWeatherServiceProvider"
             ],
             "aliases": {
-                "OpenWeather": "Solgenpower\\LaravelOpenweather\\Facades\\OpenWeather"
+                "OpenWeather": "SolgenPower\\LaravelOpenweather\\Facades\\OpenWeather"
             }
         }
     },

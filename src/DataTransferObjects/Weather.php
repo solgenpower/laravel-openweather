@@ -1,6 +1,6 @@
 <?php
 
-namespace Solgenpower\LaravelOpenweather\DataTransferObjects;
+namespace SolgenPower\LaravelOpenweather\DataTransferObjects;
 
 use Illuminate\Support\Carbon;
 

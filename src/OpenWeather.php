@@ -1,12 +1,12 @@
 <?php
 
-namespace Solgenpower\LaravelOpenweather;
+namespace SolgenPower\LaravelOpenweather;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
-use Solgenpower\LaravelOpenweather\Contracts\OpenWeatherAPI;
-use Solgenpower\LaravelOpenweather\DataTransferObjects\Weather;
+use SolgenPower\LaravelOpenweather\Contracts\OpenWeatherAPI;
+use SolgenPower\LaravelOpenweather\DataTransferObjects\Weather;
 
 class OpenWeather implements OpenWeatherAPI
 {
@@ -15,6 +15,8 @@ class OpenWeather implements OpenWeatherAPI
     private string $apiCurrentEndpoint;
 
     private string $iconEndpoint;
+
+    private array $iconMap;
 
     private string $units;
 
@@ -26,6 +28,7 @@ class OpenWeather implements OpenWeatherAPI
         $this->apiKey = $config['api-key'];
         $this->apiCurrentEndpoint = $config['api-current-endpoint'];
         $this->iconEndpoint = $config['icon-endpoint'];
+        $this->iconMap = $config['icon-map'];
         $this->units = $config['units'];
         $this->cacheDuration = $config['cache-duration'];
     }
@@ -76,7 +79,7 @@ class OpenWeather implements OpenWeatherAPI
             'countryCode' => $response['sys']['country'] ?? null,
             'condition' => $response['weather'][0]['main'],
             'description' => $response['weather'][0]['description'],
-            'icon' => $this->iconEndpoint.$response['weather'][0]['icon'],
+            'icon' => $this->getIconUrl($response['weather'][0]['icon']),
             'temperature' => $response['main']['temp'],
             'feelsLike' => $response['main']['feels_like'] ?? null,
             'pressure' => $response['main']['pressure'] ?? null,
@@ -92,5 +95,12 @@ class OpenWeather implements OpenWeatherAPI
         ];
 
         return new Weather(...$weather);
+    }
+
+    public function getIconUrl(string $icon): string
+    {
+        $iconFile = $this->iconMap[$icon];
+
+        return "{$this->iconEndpoint}{$iconFile}";
     }
 }
