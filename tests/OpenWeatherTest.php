@@ -132,4 +132,61 @@ class OpenWeatherTest extends TestCase
         $this->assertTrue($weather->sunset->valueOf() == (1485794875 * 1000));
         $this->assertTrue($weather->calculatedAt->valueOf() == (1485789600 * 1000));
     }
+
+    /** @test */
+    public function it_caches_the_weather_infromation()
+    {
+        $apiEndpoint = config('open-weather.api-current-endpoint');
+        $cacheDuration = config('open-weather.cache-duration');
+
+        $fixture1 = json_decode(file_get_contents(__DIR__.'/fixtures/test-coordinates.json'), true);
+        $fixture2 = json_decode(file_get_contents(__DIR__.'/fixtures/test-zip.json'), true);
+        $fixture3 = json_decode(file_get_contents(__DIR__.'/fixtures/test-city.json'), true);
+
+        Http::fake([
+            "{$apiEndpoint}*" => Http::sequence()
+                ->push($fixture1) //for $coordinatesWeather
+                ->push($fixture2) //for $coordinatesWeatherCached
+                ->push($fixture1) //for $zipWeather
+                ->push($fixture2) //for $zipWeatherCached
+                ->push($fixture1) //for $cityWeather
+                ->push($fixture2) //for $cityWeatherCached
+                ->push($fixture3) //for $coordinatesWeatherExpired
+                ->push($fixture3) //for $zipWeatherExpired
+                ->push($fixture3), //for $cityWeatherExpired
+        ]);
+
+        $coordinatesWeather = OpenWeather::coordinates('38.897957', '-77.036560');
+        $coordinatesWeatherCached = OpenWeather::coordinates('38.897957', '-77.036560');
+
+        $zipWeather = OpenWeather::zip('90210', 'US');
+        $zipWeatherCached = OpenWeather::zip('90210', 'US');
+
+        $cityWeather = OpenWeather::city('Tucson', 'AZ', 'US');
+        $cityWeatherCached = OpenWeather::city('Tucson', 'AZ', 'US');
+
+        $this->travel($cacheDuration + 3)->seconds();
+
+        $coordinatesWeatherExpired = OpenWeather::coordinates('38.897957', '-77.036560');
+        $zipWeatherExpired = OpenWeather::zip('90210', 'US');
+        $cityWeatherExpired = OpenWeather::city('Tucson', 'AZ', 'US');
+
+        $this->assertTrue($coordinatesWeather->latitude === $coordinatesWeatherCached->latitude);
+        $this->assertTrue($coordinatesWeather->longitude === $coordinatesWeatherCached->longitude);
+
+        $this->assertTrue($zipWeather->latitude === $zipWeatherCached->latitude);
+        $this->assertTrue($zipWeather->longitude === $zipWeatherCached->longitude);
+
+        $this->assertTrue($cityWeather->latitude === $cityWeatherCached->latitude);
+        $this->assertTrue($cityWeather->longitude === $cityWeatherCached->longitude);
+
+        $this->assertNotTrue($coordinatesWeatherCached->longitude === $coordinatesWeatherExpired->longitude);
+        $this->assertNotTrue($coordinatesWeatherCached->latitude === $coordinatesWeatherExpired->latitude);
+
+        $this->assertNotTrue($zipWeatherCached->longitude === $zipWeatherExpired->longitude);
+        $this->assertNotTrue($zipWeatherCached->latitude === $zipWeatherExpired->latitude);
+
+        $this->assertNotTrue($cityWeatherCached->longitude === $cityWeatherExpired->longitude);
+        $this->assertNotTrue($cityWeatherCached->latitude === $cityWeatherExpired->latitude);
+    }
 }
