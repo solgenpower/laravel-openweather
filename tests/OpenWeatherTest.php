@@ -189,4 +189,12 @@ class OpenWeatherTest extends TestCase
         $this->assertNotTrue($cityWeatherCached->longitude === $cityWeatherExpired->longitude);
         $this->assertNotTrue($cityWeatherCached->latitude === $cityWeatherExpired->latitude);
     }
+
+    /** @test */
+    public function it_gets_the_full_path_for_the_weather_condition_icon()
+    {
+        $iconPath = OpenWeather::getIconUrl('09d');
+
+        $this->assertEquals($iconPath, 'https://openweathermap.org/img/wn/09d.png');
+    }
 }

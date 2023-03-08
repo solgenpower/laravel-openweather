@@ -119,6 +119,9 @@ class OpenWeather implements OpenWeatherAPI
         return new Weather(...$weather);
     }
 
+    /**
+     * Get the full path string for a weather condition icon code
+     */
     public function getIconUrl(string $icon): string
     {
         $iconFile = $this->iconMap[$icon];
