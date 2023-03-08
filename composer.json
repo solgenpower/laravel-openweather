@@ -1,7 +1,18 @@
 {
     "name": "solgenpower/laravel-openweather",
     "description": "A Laravel SDK for OpenWeather API",
+    "tags": [
+        "Open Weather",
+        "Laravel",
+        "API"   
+    ],
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Prince John Santillan",
+            "email": "mail@princejohnsantillan.net"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Solgenpower\\LaravelOpenweather\\": "src/"
@@ -15,16 +26,14 @@
             "Solgenpower\\LaravelOpenweather\\Test\\": "tests/"
         }
     },
-    "authors": [
-        {
-            "name": "Prince John Santillan",
-            "email": "mail@princejohnsantillan.net"
-        }
-    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.5"
+    },
     "require-dev": {
         "phpunit/phpunit": "^10.0",
         "orchestra/testbench": "^8.0",
-        "laravel/pint": "^1.6"
+        "laravel/pint": "^1.6",
+        "nunomaduro/larastan": "^2.5"
     },
     "extra": {
         "laravel": {
@@ -36,7 +45,10 @@
             }
         }
     },
-    "require": {
-        "guzzlehttp/guzzle": "^7.5"
+    "scripts": {
+        "review": [
+            "./vendor/bin/pint",
+            "./vendor/bin/phpstan analyse"
+        ]
     }
 }

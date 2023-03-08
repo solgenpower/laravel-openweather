@@ -5,7 +5,7 @@ return [
     /**
      * API Key for Open Weather
      */
-    'api-key' => env('LAREVEL_OPENWEATHER_API_KEY', '03303b397bbfc0a984f693dfad6f201b'),
+    'api-key' => env('LAREVEL_OPENWEATHER_API_KEY'),
 
     /**
      * API Endpoint for the Current Weather
