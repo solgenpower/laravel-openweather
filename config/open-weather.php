@@ -5,17 +5,17 @@ return [
     /**
      * API Key for Open Weather
      */
-    'api-key' => env('LAREVEL_OPENWEATHER_API_KEY', ''),
+    'api-key' => env('OPENWEATHER_API_KEY', ''),
 
     /**
-     * API Endpoint for the Current Weather
+     * Endpoint for the Current Weather
      */
-    'api-current-endpoint' => env('LAREVEL_OPENWEATHER_API_ENDPOINT', 'https://api.openweathermap.org/data/2.5/'),
+    'current-endpoint' => env('OPENWEATHER_CURRENT_ENDPOINT', 'https://api.openweathermap.org/data/2.5/'),
 
     /**
      * Endpoint for the Weather Condition icons
      */
-    'icon-endpoint' => env('LAREVEL_OPENWEATHER_ICON_URL', 'https://openweathermap.org/img/wn/'),
+    'icon-endpoint' => env('OPENWEATHER_ICON_URL', 'https://openweathermap.org/img/wn/'),
 
     /**
      * Map icon code to actual icon filenames

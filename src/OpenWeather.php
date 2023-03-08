@@ -12,7 +12,7 @@ class OpenWeather implements OpenWeatherAPI
 {
     private string $apiKey;
 
-    private string $apiCurrentEndpoint;
+    private string $currentEndpoint;
 
     private string $iconEndpoint;
 
@@ -26,7 +26,7 @@ class OpenWeather implements OpenWeatherAPI
         array $config,
     ) {
         $this->apiKey = $config['api-key'];
-        $this->apiCurrentEndpoint = $config['api-current-endpoint'];
+        $this->currentEndpoint = $config['current-endpoint'];
         $this->iconEndpoint = $config['icon-endpoint'];
         $this->iconMap = $config['icon-map'];
         $this->units = $config['units'];
@@ -41,7 +41,7 @@ class OpenWeather implements OpenWeatherAPI
         return Cache::remember(
             "ow-coordinates-{$latitude}-{$longitude}",
             $this->cacheDuration,
-            fn () => $this->getWeather("{$this->apiCurrentEndpoint}weather?lat={$latitude}&lon={$longitude}")
+            fn () => $this->getWeather("{$this->currentEndpoint}weather?lat={$latitude}&lon={$longitude}")
         );
     }
 
@@ -53,7 +53,7 @@ class OpenWeather implements OpenWeatherAPI
         return Cache::remember(
             "ow-zip-{$zip}-{$country}",
             $this->cacheDuration,
-            fn () => $this->getWeather("{$this->apiCurrentEndpoint}weather?zip={$zip},{$country}")
+            fn () => $this->getWeather("{$this->currentEndpoint}weather?zip={$zip},{$country}")
         );
     }
 
@@ -65,7 +65,7 @@ class OpenWeather implements OpenWeatherAPI
         return Cache::remember(
             "ow-city-{$city}-{$stateCode}-{$countryCode}",
             $this->cacheDuration,
-            fn () => $this->getWeather("{$this->apiCurrentEndpoint}weather?q={$city},{$stateCode},{$countryCode}")
+            fn () => $this->getWeather("{$this->currentEndpoint}weather?q={$city},{$stateCode},{$countryCode}")
         );
     }
 
