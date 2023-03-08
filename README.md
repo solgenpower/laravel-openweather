@@ -87,7 +87,7 @@ echo $whiteHouseWeather->humidity; //64
 ```
 or by zip code
 ```php 
-$californiaWeather = $OpenWeather::zip('90210', 'US');
+$californiaWeather = OpenWeather::zip('90210', 'US');
 echo $californiaWeather->windDirection; //N
 ```
 or by city name
