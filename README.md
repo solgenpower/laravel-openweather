@@ -1,20 +1,23 @@
 # Laravel OpenWeather
-A Laravel SDK for OpenWeather API
 
+A Laravel SDK for OpenWeather API
 
 ## Installation
 
 Install the package via composer:
-```php 
+
+```bash
 composer require solgenpower/laravel-openweather
 ```
 
 If you're interested in modifying the config file, then publish it using the following command:
-```php 
+
+```bash
 php artisan vendor:publish --provider="Solgenpower\LaravelOpenweather\OpenWeatherServiceProvider"
 ```
 
 This is the contents of the published config file:
+
 ```php
 return [
 
@@ -31,7 +34,7 @@ return [
     /**
      * Endpoint for the Weather Condition icons
      */
-    'icon-endpoint' => env('OPENWEATHER_ICON_URL', 'https://openweathermap.org/img/wn/'),
+    'icon-endpoint' => env('OPENWEATHER_ICON_ENDPOINT', 'https://openweathermap.org/img/wn/'),
 
     /**
      * Map icon code to actual icon filenames
@@ -80,23 +83,30 @@ return [
 ```
 
 ## Usage
+
 You can get weather information by providing coordinates
-```php 
+
+```php
 $whiteHouseWeather = OpenWeather::coordinates("38.897957", "-77.036560");
 echo $whiteHouseWeather->humidity; //64
 ```
+
 or by zip code
-```php 
+
+```php
 $californiaWeather = OpenWeather::zip('90210', 'US');
 echo $californiaWeather->windDirection; //N
 ```
+
 or by city name
+
 ```php
 $pheonixWeather = OpenWeather::city('Tucson', 'AZ', 'US');
 echo $pheonixWeather->feelsLike; //281.55
 ```
 
 All these methods will return a Weather DTO that looks like this:
+
 ```php
 class Weather
 {
@@ -145,4 +155,8 @@ class Weather
 }
 ```
 
+## Testing
 
+```bash
+composer review
+```

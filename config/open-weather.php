@@ -15,7 +15,7 @@ return [
     /**
      * Endpoint for the Weather Condition icons
      */
-    'icon-endpoint' => env('OPENWEATHER_ICON_URL', 'https://openweathermap.org/img/wn/'),
+    'icon-endpoint' => env('OPENWEATHER_ICON_ENDPOINT', 'https://openweathermap.org/img/wn/'),
 
     /**
      * Map icon code to actual icon filenames
