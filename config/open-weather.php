@@ -58,6 +58,6 @@ return [
      * imperial => Fahrenheit
      * metric => Celsius
      */
-    'units' => env('OPENWEATHER_TEMP_UNIT', 'imperial'),
+    'temperature-unit' => env('OPENWEATHER_TEMPERATURE_UNIT', 'imperial'),
 
 ];

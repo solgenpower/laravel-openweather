@@ -2,12 +2,12 @@
 
 namespace SolgenPower\LaravelOpenweather\Contracts;
 
-use Enum\TemperatureUnitType;
 use SolgenPower\LaravelOpenweather\DataTransferObjects\Weather;
+use SolgenPower\LaravelOpenweather\Enums\TemperatureUnit;
 
 interface OpenWeatherAPI
 {
-    public function asTemperatureUnit(TemperatureUnitType $temperatureUnitType): self;
+    public function asTemperatureUnit(TemperatureUnit $TemperatureUnit): self;
 
     public function coordinates(string $latitude, string $longitude): Weather;
 
