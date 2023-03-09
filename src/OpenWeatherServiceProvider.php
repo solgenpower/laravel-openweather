@@ -18,12 +18,12 @@ class OpenWeatherServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/open-weather.php', 'open-weather');
 
-        $this->app->singleton(
+        $this->app->bind(
             'laravel-openweather',
             fn () => new OpenWeather(config('open-weather'))
         );
 
-        $this->app->singleton(
+        $this->app->bind(
             OpenWeatherAPI::class,
             fn () => new OpenWeather(config('open-weather'))
         );

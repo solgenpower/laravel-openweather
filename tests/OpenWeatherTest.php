@@ -5,6 +5,7 @@ namespace SolgenPower\LaravelOpenweather\Test;
 use Illuminate\Support\Facades\Http;
 use Orchestra\Testbench\TestCase;
 use SolgenPower\LaravelOpenweather\DataTransferObjects\Weather;
+use SolgenPower\LaravelOpenweather\Enums\TemperatureUnit;
 use SolgenPower\LaravelOpenweather\Facades\OpenWeather;
 use SolgenPower\LaravelOpenweather\OpenWeatherServiceProvider;
 
@@ -196,5 +197,27 @@ class OpenWeatherTest extends TestCase
         $iconPath = OpenWeather::getIconUrl('09d');
 
         $this->assertEquals($iconPath, 'https://openweathermap.org/img/wn/09d.png');
+    }
+
+    /** @test */
+    public function it_fetches_values_in_different_temperature_units()
+    {
+        $apiEndpoint = config('open-weather.api-current-endpoint');
+
+        $metricFixture = json_decode(file_get_contents(__DIR__.'/fixtures/test-metric.json'), true);
+        $imperialFixture = json_decode(file_get_contents(__DIR__.'/fixtures/test-imperial.json'), true);
+
+        Http::fake([
+            "{$apiEndpoint}*units=metric" => Http::response($metricFixture),
+            "{$apiEndpoint}*units=imperial" => Http::response($imperialFixture),
+        ]);
+
+        $metricWeather = OpenWeather::asTemperatureUnit(TemperatureUnit::Metric)->zip('90210', 'US');
+        $imperialWeather = OpenWeather::asTemperatureUnit(TemperatureUnit::Imperial)->zip('90210', 'US');
+
+        $this->assertNotEquals($metricWeather->windSpeed, $imperialWeather->windSpeed);
+        $this->assertEquals($metricWeather->windDirection, $imperialWeather->windDirection);
+        $this->assertEquals($metricWeather->temperature, 8.48);
+        $this->assertEquals($imperialWeather->temperature, 47.26);
     }
 }

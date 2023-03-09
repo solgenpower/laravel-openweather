@@ -10,7 +10,7 @@ return [
     /**
      * Endpoint for the Current Weather
      */
-    'current-endpoint' => env('OPENWEATHER_CURRENT_ENDPOINT', 'https://api.openweathermap.org/data/2.5/'),
+    'current-endpoint' => env('OPENWEATHER_CURRENT_ENDPOINT', 'https://api.openweathermap.org/data/2.5/weather/'),
 
     /**
      * Endpoint for the Weather Condition icons

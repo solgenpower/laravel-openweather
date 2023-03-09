@@ -49,14 +49,10 @@ class OpenWeather implements OpenWeatherAPI
      */
     public function coordinates(string $latitude, string $longitude): Weather
     {
-        return Cache::remember(
-            "openweather:coordinates:{$latitude}-{$longitude}",
-            $this->cacheDuration,
-            fn () => $this->getWeather([
-                'lat' => $latitude,
-                'lon' => $longitude,
-            ])
-        );
+        return $this->getCurrentWeather([
+            'lat' => $latitude,
+            'lon' => $longitude,
+        ]);
     }
 
     /**
@@ -64,13 +60,9 @@ class OpenWeather implements OpenWeatherAPI
      */
     public function zip(string $zip, string $country): Weather
     {
-        return Cache::remember(
-            "openweather:zip:{$zip}-{$country}",
-            $this->cacheDuration,
-            fn () => $this->getWeather([
-                'zip' => implode(',', [$zip, $country]),
-            ])
-        );
+        return $this->getCurrentWeather([
+            'zip' => implode(',', [$zip, $country]),
+        ]);
     }
 
     /**
@@ -78,42 +70,42 @@ class OpenWeather implements OpenWeatherAPI
      */
     public function city(string $city, string $stateCode = '', string $countryCode = ''): Weather
     {
-        return Cache::remember(
-            "openweather:city:{$city}-{$stateCode}-{$countryCode}",
-            $this->cacheDuration,
-            fn () => $this->getWeather([
-                'q' => implode(',', array_filter([$city, $stateCode, $countryCode])),
-            ])
-        );
+        return $this->getCurrentWeather([
+            'q' => implode(',', array_filter([$city, $stateCode, $countryCode])),
+        ]);
     }
 
-    private function getWeather(array $params): Weather
+    private function getCurrentWeather(array $params): Weather
     {
         $params['appid'] = $this->apiKey;
-        $params['units'] = $this->temperatureUnit->unit();
+        $params['units'] = $this->temperatureUnit->value;
         $urlParams = http_build_query($params);
 
-        $response = Http::get("{$this->currentEndpoint}weather?{$urlParams}")->json();
+        $data = Cache::remember(
+            "openweather:current:{$urlParams}",
+            $this->cacheDuration,
+            fn () => Http::get("{$this->currentEndpoint}?{$urlParams}")->json()
+        );
 
         $weather = [
-            'latitude' => $response['coord']['lat'],
-            'longitude' => $response['coord']['lon'],
-            'countryCode' => $response['sys']['country'] ?? null,
-            'condition' => $response['weather'][0]['main'],
-            'description' => $response['weather'][0]['description'],
-            'icon' => $this->getIconUrl($response['weather'][0]['icon']),
-            'temperature' => $response['main']['temp'],
-            'feelsLike' => $response['main']['feels_like'] ?? null,
-            'pressure' => $response['main']['pressure'] ?? null,
-            'humidity' => $response['main']['humidity'] ?? null,
-            'windSpeed' => $response['wind']['speed'] ?? null,
-            'windDirection' => isset($response['wind']['deg']) ? degreesToCardinal($response['wind']['deg']) : null,
-            'cloudiness' => $response['clouds']['all'] ?? null,
-            'visibility' => $response['visibility'] ?? null,
-            'timezone' => $response['timezone'] ?? 0,
-            'sunrise' => Carbon::parse($response['sys']['sunrise']),
-            'sunset' => Carbon::parse($response['sys']['sunset']),
-            'calculatedAt' => Carbon::parse($response['dt']),
+            'latitude' => $data['coord']['lat'],
+            'longitude' => $data['coord']['lon'],
+            'countryCode' => $data['sys']['country'] ?? null,
+            'condition' => $data['weather'][0]['main'],
+            'description' => $data['weather'][0]['description'],
+            'icon' => $this->getIconUrl($data['weather'][0]['icon']),
+            'temperature' => $data['main']['temp'],
+            'feelsLike' => $data['main']['feels_like'] ?? null,
+            'pressure' => $data['main']['pressure'] ?? null,
+            'humidity' => $data['main']['humidity'] ?? null,
+            'windSpeed' => $data['wind']['speed'] ?? null,
+            'windDirection' => isset($data['wind']['deg']) ? degreesToCardinal($data['wind']['deg']) : null,
+            'cloudiness' => $data['clouds']['all'] ?? null,
+            'visibility' => $data['visibility'] ?? null,
+            'timezone' => $data['timezone'] ?? 0,
+            'sunrise' => Carbon::parse($data['sys']['sunrise']),
+            'sunset' => Carbon::parse($data['sys']['sunset']),
+            'calculatedAt' => Carbon::parse($data['dt']),
         ];
 
         return new Weather(...$weather);
