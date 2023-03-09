@@ -1,4 +1,5 @@
 /vendor/
 /html
+composer.lock
 .phpunit.cache
 .idea

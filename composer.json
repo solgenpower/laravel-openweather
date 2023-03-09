@@ -1,12 +1,12 @@
 {
     "name": "solgenpower/laravel-openweather",
     "description": "A Laravel SDK for OpenWeather API",
-    "keywords": [
-        "Open Weather",
-        "Laravel",
-        "API"   
-    ],
     "license": "MIT",
+    "keywords": [
+        "OpenWeather",
+        "Laravel",
+        "API"
+    ],
     "authors": [
         {
             "name": "Prince John Santillan",
