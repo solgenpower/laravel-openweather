@@ -13,7 +13,7 @@ composer require solgenpower/laravel-openweather
 If you're interested in modifying the config file, then publish it using the following command:
 
 ```bash
-php artisan vendor:publish --provider="Solgenpower\LaravelOpenweather\OpenWeatherServiceProvider"
+php artisan vendor:publish --provider="SolgenPower\LaravelOpenweather\OpenWeatherServiceProvider"
 ```
 
 This is the contents of the published config file:
