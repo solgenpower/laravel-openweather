@@ -1,7 +1,7 @@
 {
     "name": "solgenpower/laravel-openweather",
     "description": "A Laravel SDK for OpenWeather API",
-    "tags": [
+    "keywords": [
         "Open Weather",
         "Laravel",
         "API"   
