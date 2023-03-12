@@ -2,6 +2,7 @@
 
 namespace SolgenPower\LaravelOpenweather\Test;
 
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Orchestra\Testbench\TestCase;
 use SolgenPower\LaravelOpenweather\DataTransferObjects\Weather;
@@ -222,5 +223,19 @@ class OpenWeatherTest extends TestCase
         $this->assertEquals($metricWeather->windDirection, $imperialWeather->windDirection);
         $this->assertEquals($metricWeather->temperature, 8.48);
         $this->assertEquals($imperialWeather->temperature, 47.26);
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_a_request_fails()
+    {
+        $apiEndpoint = config('open-weather.api-current-endpoint');
+
+        Http::fake([
+            "{$apiEndpoint}" => Http::response('Fail', '500'),
+        ]);
+
+        $this->expectException(RequestException::class);
+
+        OpenWeather::zip('90210', 'US');
     }
 }
