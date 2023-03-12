@@ -30,7 +30,7 @@ class OpenWeather implements OpenWeatherAPI
         $this->currentEndpoint = $config['current-endpoint'];
         $this->iconEndpoint = $config['icon-endpoint'];
         $this->iconMap = $config['icon-map'];
-        $this->temperatureUnit = TemperatureUnit::tryFrom($config['temperature-unit']);
+        $this->temperatureUnit = TemperatureUnit::from($config['temperature-unit']);
         $this->cacheDuration = $config['cache-duration'];
     }
 
@@ -84,7 +84,7 @@ class OpenWeather implements OpenWeatherAPI
         $data = Cache::remember(
             "openweather:current:{$urlParams}",
             $this->cacheDuration,
-            fn () => Http::get("{$this->currentEndpoint}?{$urlParams}")->json()
+            fn () => Http::get("{$this->currentEndpoint}?{$urlParams}")->throw()->json()
         );
 
         $weather = [
