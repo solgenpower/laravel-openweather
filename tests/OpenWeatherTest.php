@@ -226,7 +226,7 @@ class OpenWeatherTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_an_exception_when_a_request_fails()
+    public function it_throws_an_exception_when_the_coordinates_method_fails()
     {
         $apiEndpoint = config('open-weather.api-current-endpoint');
 
@@ -236,6 +236,33 @@ class OpenWeatherTest extends TestCase
 
         $this->expectException(RequestException::class);
 
+        OpenWeather::coordinates('38.897957', '-77.036560');
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_the_zip_method_fails()
+    {
+        $apiEndpoint = config('open-weather.api-current-endpoint');
+
+        Http::fake([
+            "{$apiEndpoint}" => Http::response('Fail', '400'),
+        ]);
+
+        $this->expectException(RequestException::class);
+
         OpenWeather::zip('90210', 'US');
+    }
+
+    public function it_throws_an_exception_when_the_city_method_fails()
+    {
+        $apiEndpoint = config('open-weather.api-current-endpoint');
+
+        Http::fake([
+            "{$apiEndpoint}" => Http::response('Fail', '300'),
+        ]);
+
+        $this->expectException(RequestException::class);
+
+        OpenWeather::city('Tucson', 'AZ', 'US');
     }
 }
