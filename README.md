@@ -134,6 +134,8 @@ class Weather
 
         public readonly ?float $windSpeed,
 
+        public readonly ?int $windAngle,
+
         public readonly ?string $windDirection,
 
         public readonly ?int $cloudiness,
