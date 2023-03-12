@@ -57,6 +57,7 @@ class OpenWeatherTest extends TestCase
         $this->assertTrue($weather->pressure === 1015);
         $this->assertTrue($weather->humidity === 64);
         $this->assertTrue($weather->windSpeed === 0.62);
+        $this->assertTrue($weather->windAngle === 349);
         $this->assertTrue($weather->windDirection === degreesToCardinal(349));
         $this->assertTrue($weather->cloudiness === 100);
         $this->assertTrue($weather->visibility === 10000);
@@ -91,6 +92,7 @@ class OpenWeatherTest extends TestCase
         $this->assertTrue($weather->pressure === 1023);
         $this->assertTrue($weather->humidity === 100);
         $this->assertTrue($weather->windSpeed === 1.5);
+        $this->assertTrue($weather->windAngle === 350);
         $this->assertTrue($weather->windDirection === degreesToCardinal(350));
         $this->assertTrue($weather->cloudiness === 1);
         $this->assertTrue($weather->visibility === 10000);
@@ -125,6 +127,7 @@ class OpenWeatherTest extends TestCase
         $this->assertTrue($weather->pressure === 1012);
         $this->assertTrue($weather->humidity === 81);
         $this->assertTrue($weather->windSpeed === 4.1);
+        $this->assertTrue($weather->windAngle === 80);
         $this->assertTrue($weather->windDirection === degreesToCardinal(80));
         $this->assertTrue($weather->cloudiness === 90);
         $this->assertTrue($weather->visibility === 10000);

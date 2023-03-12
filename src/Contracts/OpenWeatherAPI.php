@@ -7,7 +7,7 @@ use SolgenPower\LaravelOpenweather\Enums\TemperatureUnit;
 
 interface OpenWeatherAPI
 {
-    public function asTemperatureUnit(TemperatureUnit $TemperatureUnit): self;
+    public function asTemperatureUnit(TemperatureUnit $temperatureUnit): self;
 
     public function coordinates(string $latitude, string $longitude): Weather;
 

@@ -33,6 +33,7 @@ return [
 
     /**
      * Endpoint for the Weather Condition icons
+     * Reference: https://openweathermap.org/weather-conditions
      */
     'icon-endpoint' => env('OPENWEATHER_ICON_ENDPOINT', 'https://openweathermap.org/img/wn/'),
 

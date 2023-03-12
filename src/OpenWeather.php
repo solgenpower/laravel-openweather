@@ -99,6 +99,7 @@ class OpenWeather implements OpenWeatherAPI
             'pressure' => $data['main']['pressure'] ?? null,
             'humidity' => $data['main']['humidity'] ?? null,
             'windSpeed' => $data['wind']['speed'] ?? null,
+            'windAngle' => $data['wind']['deg'] ?? null,
             'windDirection' => isset($data['wind']['deg']) ? degreesToCardinal($data['wind']['deg']) : null,
             'cloudiness' => $data['clouds']['all'] ?? null,
             'visibility' => $data['visibility'] ?? null,
