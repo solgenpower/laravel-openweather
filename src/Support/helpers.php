@@ -20,3 +20,16 @@ if (! function_exists('degreesToCardinal')) {
         return $cardinalDirections[($index % $numOfDirections)];
     }
 }
+
+if (! function_exists('iconCodeToUrl')) {
+    function iconCodeToUrl(string $code)
+    {
+        $iconMap = config('open-weather.icon-map');
+
+        $iconEndpoint = config('open-weather.icon-endpoint');
+
+        $iconFile = $iconMap[$code];
+
+        return "{$iconEndpoint}{$iconFile}";
+    }
+}

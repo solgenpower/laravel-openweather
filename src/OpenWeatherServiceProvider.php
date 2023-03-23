@@ -1,9 +1,9 @@
 <?php
 
-namespace SolgenPower\LaravelOpenweather;
+namespace SolgenPower\LaravelOpenWeather;
 
 use Illuminate\Support\ServiceProvider;
-use SolgenPower\LaravelOpenweather\Contracts\OpenWeatherAPI;
+use SolgenPower\LaravelOpenWeather\Contracts\OpenWeatherAPI;
 
 class OpenWeatherServiceProvider extends ServiceProvider
 {
