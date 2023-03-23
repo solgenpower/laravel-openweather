@@ -54,7 +54,7 @@ class Weather
     ) {
     }
 
-    public static function fromApiResponse(array $data)
+    public static function fromApiResponse(array $data): self
     {
         $weather = [
             'latitude' => $data['coord']['lat'],
@@ -81,7 +81,7 @@ class Weather
         return new self(...$weather);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'latitude' => $this->latitude,
