@@ -1,23 +1,18 @@
 <?php
 
-namespace SolgenPower\LaravelOpenweather;
+namespace SolgenPower\LaravelOpenWeather;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
-use SolgenPower\LaravelOpenweather\Contracts\OpenWeatherAPI;
-use SolgenPower\LaravelOpenweather\DataTransferObjects\Weather;
-use SolgenPower\LaravelOpenweather\Enums\TemperatureUnit;
+use SolgenPower\LaravelOpenWeather\Contracts\OpenWeatherAPI;
+use SolgenPower\LaravelOpenWeather\DataTransferObjects\Weather;
+use SolgenPower\LaravelOpenWeather\Enums\TemperatureUnit;
 
 class OpenWeather implements OpenWeatherAPI
 {
     private string $apiKey;
 
     private string $currentEndpoint;
-
-    private string $iconEndpoint;
-
-    private array $iconMap;
 
     private TemperatureUnit $temperatureUnit;
 
@@ -28,8 +23,6 @@ class OpenWeather implements OpenWeatherAPI
     ) {
         $this->apiKey = $config['api-key'];
         $this->currentEndpoint = $config['current-endpoint'];
-        $this->iconEndpoint = $config['icon-endpoint'];
-        $this->iconMap = $config['icon-map'];
         $this->temperatureUnit = TemperatureUnit::from($config['temperature-unit']);
         $this->cacheDuration = $config['cache-duration'];
     }
@@ -75,50 +68,19 @@ class OpenWeather implements OpenWeatherAPI
         ]);
     }
 
-    private function getCurrentWeather(array $params): Weather
+    private function getCurrentWeather(array $query): Weather
     {
-        $params['appid'] = $this->apiKey;
-        $params['units'] = $this->temperatureUnit->value;
-        $urlParams = http_build_query($params);
+        $query['appid'] = $this->apiKey;
+        $query['units'] = $this->temperatureUnit->value;
+
+        $cacheKey = md5(serialize($query));
 
         $data = Cache::remember(
-            "openweather:current:{$urlParams}",
+            "openweather:current:{$cacheKey}",
             $this->cacheDuration,
-            fn () => Http::get("{$this->currentEndpoint}?{$urlParams}")->throw()->json()
+            fn () => Http::get($this->currentEndpoint, $query)->throw()->json()
         );
 
-        $weather = [
-            'latitude' => $data['coord']['lat'],
-            'longitude' => $data['coord']['lon'],
-            'countryCode' => $data['sys']['country'] ?? null,
-            'condition' => $data['weather'][0]['main'],
-            'description' => $data['weather'][0]['description'],
-            'icon' => $this->getIconUrl($data['weather'][0]['icon']),
-            'temperature' => $data['main']['temp'],
-            'feelsLike' => $data['main']['feels_like'] ?? null,
-            'pressure' => $data['main']['pressure'] ?? null,
-            'humidity' => $data['main']['humidity'] ?? null,
-            'windSpeed' => $data['wind']['speed'] ?? null,
-            'windAngle' => $data['wind']['deg'] ?? null,
-            'windDirection' => isset($data['wind']['deg']) ? degreesToCardinal($data['wind']['deg']) : null,
-            'cloudiness' => $data['clouds']['all'] ?? null,
-            'visibility' => $data['visibility'] ?? null,
-            'timezone' => $data['timezone'] ?? 0,
-            'sunrise' => Carbon::parse($data['sys']['sunrise']),
-            'sunset' => Carbon::parse($data['sys']['sunset']),
-            'calculatedAt' => Carbon::parse($data['dt']),
-        ];
-
-        return new Weather(...$weather);
-    }
-
-    /**
-     * Get the full path string for a weather condition icon code
-     */
-    public function getIconUrl(string $icon): string
-    {
-        $iconFile = $this->iconMap[$icon];
-
-        return "{$this->iconEndpoint}{$iconFile}";
+        return Weather::fromApiResponse($data);
     }
 }

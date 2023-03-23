@@ -1,6 +1,6 @@
 <?php
 
-namespace SolgenPower\LaravelOpenweather\Enums;
+namespace SolgenPower\LaravelOpenWeather\Enums;
 
 enum TemperatureUnit: string
 {

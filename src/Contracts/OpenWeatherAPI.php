@@ -1,9 +1,9 @@
 <?php
 
-namespace SolgenPower\LaravelOpenweather\Contracts;
+namespace SolgenPower\LaravelOpenWeather\Contracts;
 
-use SolgenPower\LaravelOpenweather\DataTransferObjects\Weather;
-use SolgenPower\LaravelOpenweather\Enums\TemperatureUnit;
+use SolgenPower\LaravelOpenWeather\DataTransferObjects\Weather;
+use SolgenPower\LaravelOpenWeather\Enums\TemperatureUnit;
 
 interface OpenWeatherAPI
 {

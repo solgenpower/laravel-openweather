@@ -1,6 +1,6 @@
 <?php
 
-namespace SolgenPower\LaravelOpenweather\Facades;
+namespace SolgenPower\LaravelOpenWeather\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

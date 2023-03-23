@@ -1,38 +1,15 @@
 <?php
 
-namespace SolgenPower\LaravelOpenweather\Test;
+namespace SolgenPower\LaravelOpenWeather\Test;
 
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
-use Orchestra\Testbench\TestCase;
-use SolgenPower\LaravelOpenweather\DataTransferObjects\Weather;
-use SolgenPower\LaravelOpenweather\Enums\TemperatureUnit;
-use SolgenPower\LaravelOpenweather\Facades\OpenWeather;
-use SolgenPower\LaravelOpenweather\OpenWeatherServiceProvider;
+use SolgenPower\LaravelOpenWeather\DataTransferObjects\Weather;
+use SolgenPower\LaravelOpenWeather\Enums\TemperatureUnit;
+use SolgenPower\LaravelOpenWeather\Facades\OpenWeather;
 
-class OpenWeatherTest extends TestCase
+class OpenWeatherTest extends BaseTestCase
 {
-    protected function getPackageProviders($app)
-    {
-        return [
-            OpenWeatherServiceProvider::class,
-        ];
-    }
-
-    protected function getPackageAliases($app)
-    {
-        return [
-            'OpenWeather' => OpenWeather::class,
-        ];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Http::preventStrayRequests();
-    }
-
     /** @test */
     public function it_gets_weather_information_of_a_coordinate()
     {
@@ -52,7 +29,7 @@ class OpenWeatherTest extends TestCase
         $this->assertTrue($weather->countryCode === 'IT');
         $this->assertTrue($weather->condition === 'Rain');
         $this->assertTrue($weather->description === 'moderate rain');
-        $this->assertTrue($weather->icon === OpenWeather::getIconUrl('10d'));
+        $this->assertTrue($weather->icon === iconCodeToUrl('10d'));
         $this->assertTrue($weather->temperature === 298.48);
         $this->assertTrue($weather->feelsLike === 298.74);
         $this->assertTrue($weather->pressure === 1015);
@@ -87,7 +64,7 @@ class OpenWeatherTest extends TestCase
         $this->assertTrue($weather->countryCode === 'US');
         $this->assertTrue($weather->condition === 'Clear');
         $this->assertTrue($weather->description === 'clear sky');
-        $this->assertTrue($weather->icon === OpenWeather::getIconUrl('01d'));
+        $this->assertTrue($weather->icon === iconCodeToUrl('01d'));
         $this->assertTrue($weather->temperature === 282.55);
         $this->assertTrue($weather->feelsLike === 281.86);
         $this->assertTrue($weather->pressure === 1023);
@@ -122,7 +99,7 @@ class OpenWeatherTest extends TestCase
         $this->assertTrue($weather->countryCode === 'GB');
         $this->assertTrue($weather->condition === 'Drizzle');
         $this->assertTrue($weather->description === 'light intensity drizzle');
-        $this->assertTrue($weather->icon === OpenWeather::getIconUrl('09d'));
+        $this->assertTrue($weather->icon === iconCodeToUrl('09d'));
         $this->assertTrue($weather->temperature === 280.32);
         $this->assertTrue($weather->feelsLike === null);
         $this->assertTrue($weather->pressure === 1012);
@@ -193,14 +170,6 @@ class OpenWeatherTest extends TestCase
 
         $this->assertNotTrue($cityWeatherCached->longitude === $cityWeatherExpired->longitude);
         $this->assertNotTrue($cityWeatherCached->latitude === $cityWeatherExpired->latitude);
-    }
-
-    /** @test */
-    public function it_gets_the_full_path_for_the_weather_condition_icon()
-    {
-        $iconPath = OpenWeather::getIconUrl('09d');
-
-        $this->assertEquals($iconPath, 'https://openweathermap.org/img/wn/09d.png');
     }
 
     /** @test */
