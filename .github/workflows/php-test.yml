@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  lint-analyse-test:
+  linting-analyis-testing:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,5 +29,5 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Run lint, analysis, and test
+      - name: Run linting, analysis, and testing
         run: composer ci-review
