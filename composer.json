@@ -55,6 +55,6 @@
             "./vendor/bin/pint",
             "./vendor/bin/phpstan analyse",
             "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html=html"
-        ]        
+        ]
     }
 }
