@@ -46,13 +46,15 @@
         }
     },
     "scripts": {
-        "review": [
-            "./vendor/bin/pint",
+        "ci-review": [
+            "./vendor/bin/pint --test",
             "./vendor/bin/phpstan analyse",
             "./vendor/bin/phpunit"
         ],
-        "coverage": [
+        "review": [
+            "./vendor/bin/pint",
+            "./vendor/bin/phpstan analyse",
             "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html=html"
-        ]
+        ]        
     }
 }

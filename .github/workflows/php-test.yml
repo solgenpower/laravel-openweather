@@ -1,4 +1,4 @@
-name: PHP Test
+name: Code Review
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  lint-analyse-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,4 +30,4 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run lint, analysis, and test
-        run: composer review
+        run: composer ci-review
