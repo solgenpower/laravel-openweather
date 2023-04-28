@@ -16,7 +16,6 @@ class TemperatureUnitTest extends TestCase
     }
 
     /** @test */
-    /** @test */
     public function it_returns_temperature_unit()
     {
         $this->assertEquals('Kelvin', TemperatureUnit::Standard->unit());
