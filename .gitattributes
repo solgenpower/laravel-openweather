@@ -1,0 +1,6 @@
+/.github
+/tests
+/.gitattributes
+/.gitignore
+/phpstan.neon
+/phpunit.xml
