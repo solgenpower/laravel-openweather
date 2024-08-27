@@ -16,6 +16,8 @@ class Weather
 
         public readonly ?string $countryCode,
 
+        public readonly ?string $city,
+
         public readonly string $condition,
 
         public readonly string $description,
@@ -60,6 +62,7 @@ class Weather
             'latitude' => $data['coord']['lat'],
             'longitude' => $data['coord']['lon'],
             'countryCode' => $data['sys']['country'] ?? null,
+            'city' => $data['name'] ?? null,
             'condition' => $data['weather'][0]['main'],
             'description' => $data['weather'][0]['description'],
             'icon' => iconCodeToUrl($data['weather'][0]['icon']),
@@ -87,6 +90,7 @@ class Weather
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'countryCode' => $this->countryCode,
+            'city' => $this->city,
             'condition' => $this->condition,
             'description' => $this->description,
             'icon' => $this->icon,

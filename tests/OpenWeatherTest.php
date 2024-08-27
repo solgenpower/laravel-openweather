@@ -27,6 +27,7 @@ class OpenWeatherTest extends BaseTestCase
         $this->assertTrue($weather->latitude === 44.34);
         $this->assertTrue($weather->longitude === 10.99);
         $this->assertTrue($weather->countryCode === 'IT');
+        $this->assertTrue($weather->city === 'Zocca');
         $this->assertTrue($weather->condition === 'Rain');
         $this->assertTrue($weather->description === 'moderate rain');
         $this->assertTrue($weather->icon === iconCodeToUrl('10d'));
@@ -62,6 +63,7 @@ class OpenWeatherTest extends BaseTestCase
         $this->assertTrue($weather->latitude === 37.39);
         $this->assertTrue($weather->longitude === -122.08);
         $this->assertTrue($weather->countryCode === 'US');
+        $this->assertTrue($weather->city === 'Mountain View');
         $this->assertTrue($weather->condition === 'Clear');
         $this->assertTrue($weather->description === 'clear sky');
         $this->assertTrue($weather->icon === iconCodeToUrl('01d'));
@@ -97,6 +99,7 @@ class OpenWeatherTest extends BaseTestCase
         $this->assertTrue($weather->latitude === 51.51);
         $this->assertTrue($weather->longitude === -0.13);
         $this->assertTrue($weather->countryCode === 'GB');
+        $this->assertTrue($weather->city === 'London');
         $this->assertTrue($weather->condition === 'Drizzle');
         $this->assertTrue($weather->description === 'light intensity drizzle');
         $this->assertTrue($weather->icon === iconCodeToUrl('09d'));
