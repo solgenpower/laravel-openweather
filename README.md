@@ -117,6 +117,8 @@ class Weather
         public readonly float $longitude,
 
         public readonly ?string $countryCode,
+        
+        public readonly ?string $city,
 
         public readonly string $condition,
 
