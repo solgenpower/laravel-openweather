@@ -18,6 +18,7 @@ class WeatherDTOTest extends BaseTestCase
         $this->assertTrue($weather->latitude === 44.34);
         $this->assertTrue($weather->longitude === 10.99);
         $this->assertTrue($weather->countryCode === 'IT');
+        $this->assertTrue($weather->city === 'Zocca');
         $this->assertTrue($weather->condition === 'Rain');
         $this->assertTrue($weather->description === 'moderate rain');
         $this->assertTrue($weather->icon === iconCodeToUrl('10d'));
@@ -49,6 +50,7 @@ class WeatherDTOTest extends BaseTestCase
         $this->assertTrue($weatherArray['latitude'] === 44.34);
         $this->assertTrue($weatherArray['longitude'] === 10.99);
         $this->assertTrue($weatherArray['countryCode'] === 'IT');
+        $this->assertTrue($weatherArray['city'] === 'Zocca');
         $this->assertTrue($weatherArray['condition'] === 'Rain');
         $this->assertTrue($weatherArray['description'] === 'moderate rain');
         $this->assertTrue($weatherArray['icon'] === iconCodeToUrl('10d'));
